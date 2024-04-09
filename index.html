@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Weather App</title>
+</head>
+<body>
+
+    <div class="card">
+        <div class="search">
+            <input type="text" placeholder="enter city name" spellcheck="false" >
+            <button> <img src="images/search.png" alt="seach button"></button>
+        </div>
+
+        <div class="weather">
+            <img src="images/rain.png" class="weather-icon">
+            <h1 class="temp">10°C</h1>
+            <h2 class="city">Accra</h2>
+            
+            <div class="details">
+                <div class="col">
+                    <img src="images/humidity.png" alt="">
+                    <div>
+                        <p class="humidity">50%</p>
+                        <p>Humidity</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <img src="images/wind.png" alt="">
+                    <div>
+                        <p class="wind">50</p>
+                        <p>Wind-speed</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+
+<!-- Api cal approach here -->
+<script>
+    
+const apiKey = "45ac2810f13f9bfcd70aad49c952d458";
+const apiUrl = "https://api.openweathermap.org/data/2.5/weather?=&units=metric&q=";
+
+const searchBox = document.querySelector(".search input");
+const searchButton = document.querySelector(".search button");
+
+async function checkWeather(city){
+    const response = await fetch(apiUrl + city + `&appid=${apiKey}`);
+    const weatherData = await response.json();
+    console.log(weatherData)
+
+//here is for the dom =
+document.querySelector(".city").innerHTML = weatherData.name;
+document.querySelector(".temp").innerHTML = Math.round (weatherData.main.temp) + "°C" ;
+document.querySelector(".humidity").innerHTML = weatherData.main.humidity + "%";
+document.querySelector(".wind").innerHTML = weatherData.wind.speed + " km/h";
+
+}
+// checkWeather();
+// you have to call the function checkWeather(); to be able to see the console.log else it won't appear.
+
+
+
+// addeventlistners with this code below and pass the function into it when clicked
+// then event listener was added after used dom to bring input and button to js and ask 
+// that upon click on the button the value for the word keyed to be displayed, wow
+searchBox.addEventListener("click",()=>{
+    checkWeather(searchBox.value);
+})
+
+</script>
+    
+</body>
+</html>
